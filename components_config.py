@@ -21,17 +21,17 @@ COMPONENTS = [
     },
     {
         "nick": "esb",
-        "version": "7.1.7",
+        "version": "10.0.219",
         "name": "1С:Шина"
     },
     {
         "nick": "AddCompPostgre",
-        "version": "18.3-5.1C",
+        "version": "17.9-3.1C",
         "name": "PostgreSQL"
     },
     {
         "nick": "EnterpriseLicenseTools",
-        "version": "0.15.1.7",
+        "version": "0.15.2.8",
         "name": "Инструменты для работы с лицензиями"
     },
     {

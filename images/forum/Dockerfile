@@ -1,4 +1,4 @@
-FROM tomcat:9-jdk17-temurin
+FROM tomcat:10-jdk17-temurin
 
 ENV JAVA_OPTS="${JAVA_OPTS} -Xms256m -Xmx512m -XX:+UseParallelGC -server"
 

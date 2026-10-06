@@ -20,8 +20,12 @@ ENV LANG=ru_RU.utf8
 ENV INSTANCE=/var/cs
 ENV PGDATA=$INSTANCE/pgdata
 
+#RUN RING_PATH=$(ls -d /opt/1C/1CE/components/1c-enterprise-ring-*/ | head -1) && \
+#    ln -s "${RING_PATH}ring" /usr/local/bin/ring
+
 RUN RING_PATH=$(ls -d /opt/1C/1CE/components/1c-enterprise-ring-*/ | head -1) && \
-    ln -s "${RING_PATH}ring" /usr/local/bin/ring
+    { echo '#!/bin/sh'; echo "exec \"${RING_PATH}ring\" \"\$@\""; } > /usr/local/bin/ring && \
+    chmod +x /usr/local/bin/ring
 
 ENV PATH=$PATH:/usr/lib/postgresql/16/bin
 

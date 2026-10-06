@@ -48,7 +48,7 @@ services:
       - site
       - forum
   s3:
-    image: minio/minio:latest
+    image: pgsty/minio:latest
     hostname: s3.1cfresh-dev.ru
     container_name: s3.1cfresh-dev.ru
     volumes:

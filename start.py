@@ -14,7 +14,7 @@ global_debug = False
 info_base_list = []
 
 docker_run_str = 'docker run --rm -v {}:/out_files alpine'.format(helper.this_path)
-docker_compose_str = 'docker-compose -f workdir/docker-compose.yml '
+docker_compose_str = 'docker compose --file=workdir/docker-compose.yml '
 
 work_dir = '/out_files/workdir/'
 work_dir_other = work_dir + 'mnt/other-files/'
