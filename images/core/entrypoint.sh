@@ -13,6 +13,33 @@ if [ $status -ne 0 ]; then
     exit $status
 fi
 
+# --- Auto-create 1C desktop shortcuts (sm Enterprise, sm Designer, smtl Enterprise, sa Enterprise) ---
+DISPLAY=${DISPLAY:-:99}
+DESKTOP_DIR="/root/Рабочий стол"
+mkdir -p "$DESKTOP_DIR"
+make_desktop() {
+    local name="$1" scmd="$2"
+    local f="$DESKTOP_DIR/$name.desktop"
+    cat > "$f" << EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=$name
+Comment=1C:Предприятие
+Exec=$scmd
+Icon=/usr/share/pixmaps/1cv8-8.5.1-1302.png
+Terminal=false
+Categories=Office;
+EOF
+    chmod +x "$f"
+}
+SERVER=srv
+for ib in sm smtl sa; do
+    make_desktop "1C $ib Enterprise" "/opt/1c/1cv8 ENTERPRISE /S \"$SERVER\\\\$ib\""
+done
+make_desktop "1C sm Designer" "/opt/1c/1cv8 DESIGNER /S \"$SERVER\\\\sm\""
+grep -l '^Exec=' "$DESKTOP_DIR"/*.desktop >/dev/null 2>&1 || true
+
 if [ "$CONTAINER_NAME" = 'srv' ]
 then
     echo "Starting Executor in $CONTAINER_NAME"
@@ -51,33 +78,5 @@ then
         fg %1
     fi
 fi
-
-# --- Auto-create 1C desktop shortcuts (sm, smtl, sa) ---
-DISPLAY=${DISPLAY:-:99}
-DESKTOP_DIR="${XDG_DESKTOP_DIR:-/root/Рабочий стол}"
-mkdir -p "$DESKTOP_DIR"
-make_desktop() {
-    local name="$1" scmd="$2"
-    local f="$DESKTOP_DIR/$name.desktop"
-    cat > "$f" << EOF
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=$name
-Comment=1C:Предприятие
-Exec=$scmd
-Icon=/usr/share/pixmaps/1cv8-8.5.1-1302.png
-Terminal=false
-Categories=Office;
-EOF
-    chmod +x "$f"
-}
-SERVER=srv
-for ib in sm smtl sa; do
-    make_desktop "1C $ib Enterprise" "/opt/1c/1cv8 ENTERPRISE /S \"$SERVER\\\\$ib\""
-done
-make_desktop "1C sm Designer" "/opt/1c/1cv8 DESIGNER /S \"$SERVER\\\\sm\""
-
-# --- End shortcuts ---
 
 exec "$@"
