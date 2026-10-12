@@ -13,6 +13,12 @@ if [ $status -ne 0 ]; then
     exit $status
 fi
 
+# --- Keyboard layout switching (EN <-> RU) on Ctrl+Shift ---
+sleep 2
+if command -v setxkbmap >/dev/null 2>&1; then
+    setxkbmap -model pc105 -layout us,ru -option "grp:ctrl_shift_toggle" &
+fi
+
 # --- Auto-create 1C desktop shortcuts (sm Enterprise, sm Designer, smtl Enterprise, sa Enterprise) ---
 DISPLAY=${DISPLAY:-:99}
 DESKTOP_DIR="/root/Рабочий стол"
@@ -32,6 +38,9 @@ Terminal=false
 Categories=Office;
 EOF
     chmod +x "$f"
+    if command -v gio >/dev/null 2>&1; then
+        gio set "$f" metadata::trusted true
+    fi
 }
 SERVER=srv
 for ib in sm smtl sa; do
