@@ -210,6 +210,7 @@ def edit_site_settings(host_name, sup_pass):
     command = []
     command.append('docker exec -t web.{}'.format(host_name))
     command.append("curl")
+    command.append('-k')
     command.append('-F propertiesMap[\'site.url\']=https://{}'.format(host_name))
     command.append('-F propertiesMap[\'site.locale\']=ru')
     command.append('-F propertiesMap[\'site.media_directory\']=/var/www/content/site_files/')
@@ -241,7 +242,8 @@ def edit_site_settings(host_name, sup_pass):
 def enable_manual_registration(host_name):
     command = []
     command.append('docker exec -t web.{}'.format(host_name))
-    command.append('curl')
+    command.append("curl")
+    command.append('-k')
     command.append('-F id=25')
     command.append('-F key=ManualRegistration')
     command.append('-F description="Включение регистрации на сайте без выбора партнера (код приглашения высылается автоматически)"')
@@ -253,7 +255,8 @@ def enable_manual_registration(host_name):
 def enable_openid(host_name):
     command = []
     command.append('docker exec -t web.{}'.format(host_name))
-    command.append('curl')
+    command.append("curl")
+    command.append('-k')
     command.append('-F id=2')
     command.append('-F key=openid')
     command.append('-F description="Включение работы OpenID на сайте"')
@@ -265,7 +268,8 @@ def enable_openid(host_name):
 def add_solution(host_name, brief_desc, full_desc, display_order, id, possibilities, title):
     command = []
     command.append('docker exec -t web.{}'.format(host_name))
-    command.append('curl')
+    command.append("curl")
+    command.append('-k')
     command.append('-F _enableDemo=on')
     command.append('-F _showVideo=on')
     command.append('-F _userVisible=on')

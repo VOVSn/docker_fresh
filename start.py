@@ -407,7 +407,7 @@ def configurate_site():
 def init_gate():
     """Initialization gate"""
 
-    call('docker exec -t web.{0} curl --user Администратор: https://{0}/a/adm/hs/docker_control/update_appgate'.format(host_name),
+    call('docker exec -t web.{0} curl -k --user Администратор: https://{0}/a/adm/hs/docker_control/update_appgate'.format(host_name),
         remote=False)
 
 
@@ -468,7 +468,7 @@ call(docker_compose_str + 'up -d nginx site', remote=False, silent=False)
 wait_site()
 
 if new_server:
-    delete_all_control_ext()
+    # delete_all_control_ext()   # keep api.1cfresh installed on test/dev stands for SM re-init and API automation
     configurate_site()
 
 init_gate()
